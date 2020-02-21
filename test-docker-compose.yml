@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  node:
+    build: . 
+    environment:
+     - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - rabbitmq
+    command: "npm run ci"
+  rabbitmq:
+    image: rabbitmq:3.8.2-alpine

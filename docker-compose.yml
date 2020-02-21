@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  consumer:
+    build: . 
+    environment:
+     - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - rabbitmq
+    command: "node build/consume.js"
+  producer:
+    build: . 
+    environment:
+     - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - rabbitmq
+    command: "node build/producer.js"
+  rabbitmq:
+    image: rabbitmq:3.8.2-alpine
