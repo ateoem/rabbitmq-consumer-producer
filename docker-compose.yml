@@ -1,18 +1,20 @@
 version: "3.7"
 services:
-  consumer:
+  consume:
     build: . 
     environment:
      - NODE_ENV=${NODE_ENV}
+     - SEEDER=${SEEDER}
     depends_on:
       - rabbitmq
-    command: "node build/consume.js"
-  producer:
+    command: "node dist/consume.js"
+  produce:
     build: . 
     environment:
      - NODE_ENV=${NODE_ENV}
+     - SEEDER=${SEEDER}
     depends_on:
       - rabbitmq
-    command: "node build/producer.js"
+    command: "node dist/produce.js"
   rabbitmq:
     image: rabbitmq:3.8.2-alpine

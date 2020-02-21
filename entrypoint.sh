@@ -7,6 +7,7 @@ if [ "$NODE_ENV" = "test" ]; then
   cp .env.test .env
 else
   cp .env.prod .env
+  npm run build
 fi
 
 exec "$@"
