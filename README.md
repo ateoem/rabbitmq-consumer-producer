@@ -1,3 +1,5 @@
+![Image description](https://i.imgur.com/N5dhLAA.gif)
+
 # rabbitmq-consumer-producer
 
 Simple rabbitmq queue.
