@@ -19,6 +19,3 @@ todo
 ```bash
 NODE_ENV=test docker-compose -f test-docker-compose.yml run node
 ```
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
