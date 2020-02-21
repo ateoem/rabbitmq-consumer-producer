@@ -13,7 +13,7 @@ tested on:
 ## Installation
 
 ```bash
-git clone https://github.com/ateoem/rabbitmq-consumer-producer.git
+git clone https://github.com/mfejczaruk/rabbitmq-consumer-producer.git
 ```
 
 ## Usage
