@@ -6,14 +6,14 @@ Simple rabbitmq queue.
 
 ## Requirements
 
-test on:
+tested on:
 - Docker version 18.09.0-ce-beta1, build 78a6bdb
 - docker-compose version 1.25.4, build 8d51620a
 
 ## Installation
 
 ```bash
-git clone https://github.com/ateoem/rabbitmq-consumer-producer.git
+git clone https://github.com/mfejczaruk/rabbitmq-consumer-producer.git
 ```
 
 ## Usage
