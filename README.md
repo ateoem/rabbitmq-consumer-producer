@@ -18,8 +18,18 @@ git clone https://github.com/ateoem/rabbitmq-consumer-producer.git
 
 ## Usage
 
+1. Run producers
 ```bash
-NODE_ENV=prod docker-compose up
+NODE_ENV=prod SEEDER=md5 docker-compose run -d produce
+NODE_ENV=prod SEEDER=sha3 docker-compose run -d produce
+NODE_ENV=prod SEEDER=keccak docker-compose run -d produce```
+```
+
+2. Wait for logs
+```bash
+NODE_ENV=prod SEEDER=md5 docker-compose run consume
+NODE_ENV=prod SEEDER=sha3 docker-compose run consume
+NODE_ENV=prod SEEDER=keccak docker-compose run consume```
 ```
 
 ## Tests
