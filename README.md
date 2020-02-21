@@ -2,6 +2,12 @@
 
 Simple rabbitmq queue.
 
+## Requirements
+
+test on:
+- Docker version 18.09.0-ce-beta1, build 78a6bdb
+- docker-compose version 1.25.4, build 8d51620a
+
 ## Installation
 
 ```bash
