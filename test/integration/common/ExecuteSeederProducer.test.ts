@@ -5,7 +5,7 @@ import SeederProducerBridge from "../../../src/common/SeederProducerBridge";
 import InMemoryLogger from "../../common/InMemoryLogger";
 import SHA3Seeder from "../../../src/seeder/SHA3Seeder";
 import LoggerConsumerBrige from "../../../src/common/LoggerConsumerBridge";
-import ExecuteSeederProducer from "../../../src/common/ExecuteWithFrequency";
+import ExecuteSeederProducer from "../../../src/common/ExecuteSeederProducer";
 jest.mock("../../../src/logger/ConsoleLogger");
 
 const sleep = (ms: number): Promise<void> => {

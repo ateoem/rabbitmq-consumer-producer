@@ -18,6 +18,7 @@ import seeders, { SeederConfigType } from "./seeders";
   const seedersToProduce: SeederConfigType[] = seeders[seederName];
   if (!seedersToProduce) {
     console.error("There is no such provider!");
+    process.exit(1);
   }
   const connection: Connection = await connect(url);
   const channel: Channel = await connection.createChannel();

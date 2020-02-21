@@ -15,7 +15,6 @@ class RabbitMQHooks {
   }
 
   async beforeAll(done: jest.DoneCallback): Promise<jest.DoneCallback> {
-    console.log(process.env.AMQP_URL);
     this.connection = await connect(process.env.AMQP_URL);
     this.channel = await this.connection.createChannel();
     return done();
