@@ -11,7 +11,7 @@ git clone https://github.com/ateoem/rabbitmq-consumer-producer.git
 ## Usage
 
 ```bash
-todo
+NODE_ENV=prod docker-compose up
 ```
 
 ## Tests
