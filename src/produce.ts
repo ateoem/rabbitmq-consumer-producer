@@ -33,6 +33,7 @@ connect(url)
     });
 
     executeSeeders.forEach((executeSeeder: ExecuteSeederProducer) => {
+      console.log(`Start to produce.`);
       executeSeeder.start();
     });
   })

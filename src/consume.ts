@@ -30,6 +30,7 @@ connect(url)
     });
 
     consumerBridges.forEach((bridge: LoggerConsumerBrige) => {
+      console.log(`Start to consume.`);
       bridge.logWithConsume();
     });
   })
