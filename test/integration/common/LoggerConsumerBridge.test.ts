@@ -14,7 +14,7 @@ describe("LoggerConsumerBridge", () => {
   beforeEach(done => hooks.beforeEach(done));
   afterAll(done => hooks.afterAll(done));
 
-  it("Should produce pre-seeded messages.", async () => {
+  it("Should retrieve pre-seeded messages.", async () => {
     const producer = new RabbitMQProducer(QUEUE_NAME, hooks.channel);
     const consumer = new RabbitMQConsumer(QUEUE_NAME, hooks.channel);
     const bridge = new SeederProducerBridge([MD5Seeder], producer);
