@@ -32,7 +32,7 @@ connect(url)
       .forEach(seeder => executeSeeders.push(seeder));
 
     executeSeeders.forEach((executeSeeder: ExecuteSeederProducer) => {
-      console.log(`Start to produce.`);
+    console.log(`Start to produce@${ms} ms.`);
       executeSeeder.start();
     });
   })
