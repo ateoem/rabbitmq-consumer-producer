@@ -1,6 +1,8 @@
 ![Image description](https://i.imgur.com/N5dhLAA.gif)
 
+
 # rabbitmq-consumer-producer
+[![Build Status](https://travis-ci.org/mfejczaruk/rabbitmq-consumer-producer.svg?branch=master)](https://travis-ci.org/mfejczaruk/rabbitmq-consumer-producer)
 
 Simple rabbitmq queue.
 
