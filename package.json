@@ -1,7 +1,7 @@
 {
-  "name": "rabbitmq",
+  "name": "rabbitmq-consumer-producer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Rabbitmq consumer/producer example.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -10,7 +10,11 @@
     "build": "mkdirp dist && tsc --outDir dist",
     "ci": "npm run lint && npm run build && npm run test"
   },
-  "author": "",
+  "author": "Mateusz Fejczaruk <mfejczaruk@gmail.com>",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mfejczaruk/rabbitmq-consumer-producer"
+  },
   "license": "ISC",
   "dependencies": {
     "@types/node": "^13.7.4",

@@ -1,14 +1,10 @@
 import ConsumerCallback from "./ConsumerCallbackInterface";
 
 abstract class Consumer {
-  protected queueName: string;
+  constructor(protected queueName: string) {}
 
-  constructor(queueName: string) {
-    this.queueName = queueName;
-  }
-
-  abstract consume(callback: ConsumerCallback): void;
-  abstract close(): Promise<void>;
+  public abstract consume(callback: ConsumerCallback): void;
+  public abstract close(): Promise<void>;
 }
 
 export default Consumer;

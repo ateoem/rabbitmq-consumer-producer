@@ -5,7 +5,6 @@ import SeederProducerBridge from "../../../src/common/SeederProducerBridge";
 import MD5Seeder from "../../../src/seeder/MD5Seeder";
 import InMemoryLogger from "../../common/InMemoryLogger";
 import LoggerConsumerBrige from "../../../src/common/LoggerConsumerBridge";
-jest.mock("../../../src/logger/ConsoleLogger");
 
 describe("LoggerConsumerBridge", () => {
   const QUEUE_NAME = "test_logger_consumer_queue";

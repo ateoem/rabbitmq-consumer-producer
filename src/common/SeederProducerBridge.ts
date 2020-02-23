@@ -1,17 +1,15 @@
 import SeederInterface from "../seeder/SeederInterface";
-import ProducerInterface from "../producer/ProducerInterface";
+import ProducerInterface from "../producer/Producer";
 
 class SeederProducerBridge {
-  private seeders: SeederInterface[];
-  private producer: ProducerInterface;
   private rounds = 0;
 
-  constructor(seeders: SeederInterface[], producer: ProducerInterface) {
-    this.seeders = seeders;
-    this.producer = producer;
-  }
+  constructor(
+    private seeders: SeederInterface[],
+    private producer: ProducerInterface
+  ) {}
 
-  async seed(): Promise<void> {
+  public async seed(): Promise<void> {
     await Promise.all(
       this.seeders.map((seeder: SeederInterface) => {
         return this.producer.produce(seeder(this.rounds));
@@ -21,7 +19,7 @@ class SeederProducerBridge {
     this.rounds += 1;
   }
 
-  async close(): Promise<void> {
+  public async close(): Promise<void> {
     await this.producer.close();
   }
 }

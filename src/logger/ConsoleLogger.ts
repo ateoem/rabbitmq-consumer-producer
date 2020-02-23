@@ -1,5 +1,7 @@
-class ConsoleLogger {
-  log(data: string): void {
+import LoggerInterface from "./LoggerInterface";
+
+class ConsoleLogger implements LoggerInterface {
+  public log(data: string): void {
     console.log(data);
   }
 }

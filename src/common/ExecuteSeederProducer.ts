@@ -1,18 +1,12 @@
 import SeederProducerBridge from "./SeederProducerBridge";
 
 class ExecuteSeederProducer {
-  private ms: number;
-  private bridge: SeederProducerBridge;
   private timeout?: NodeJS.Timeout;
-  private closed: boolean;
+  private closed = false;
 
-  constructor(bridge: SeederProducerBridge, ms: number) {
-    this.bridge = bridge;
-    this.ms = ms;
-    this.closed = false;
-  }
+  constructor(private bridge: SeederProducerBridge, private ms: number) {}
 
-  start(): void {
+  public start(): void {
     if (!this.closed) {
       this.timeout = setTimeout(() => {
         this.bridge.seed();
@@ -21,7 +15,7 @@ class ExecuteSeederProducer {
     }
   }
 
-  close(): void {
+  public close(): void {
     this.closed = true;
     if (this.timeout) {
       clearTimeout(this.timeout);

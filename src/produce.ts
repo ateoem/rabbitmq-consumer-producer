@@ -6,7 +6,7 @@ import RabbitMQProducer from "./producer/RabbitMQProducer";
 import { Connection, connect, Channel } from "amqplib";
 import SeederProducerBridge from "./common/SeederProducerBridge";
 import ExecuteSeederProducer from "./common/ExecuteSeederProducer";
-import seeders, { SeederConfigType } from "./seeders";
+import seedersConfig, { SeederConfigType } from "./seeder-config";
 
 (async (): Promise<void> => {
   const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";
@@ -15,7 +15,7 @@ import seeders, { SeederConfigType } from "./seeders";
     ? parseInt(process.env.INTERVAL)
     : 100;
 
-  const seedersToProduce: SeederConfigType[] = seeders[seederName];
+  const seedersToProduce: SeederConfigType[] = seedersConfig[seederName];
   if (!seedersToProduce) {
     console.error("There is no such provider!");
     process.exit(1);
@@ -24,10 +24,10 @@ import seeders, { SeederConfigType } from "./seeders";
   const channel: Channel = await connection.createChannel();
 
   const executeSeeders: ExecuteSeederProducer[] = seedersToProduce.map(
-    (seeder: SeederConfigType) => {
-      const producer = new RabbitMQProducer(seeder.queueName, channel);
+    (seederConfig: SeederConfigType) => {
+      const producer = new RabbitMQProducer(seederConfig.queueName, channel);
       const seederProducer = new SeederProducerBridge(
-        [seeder.seeder],
+        [seederConfig.seeder],
         producer
       );
       return new ExecuteSeederProducer(seederProducer, ms);

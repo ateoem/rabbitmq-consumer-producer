@@ -7,7 +7,7 @@ import LoggerConsumerBrige from "./common/LoggerConsumerBridge";
 import LoggerInterface from "./logger/LoggerInterface";
 import ConsoleLogger from "./logger/ConsoleLogger";
 import RabbitMQConsumer from "./consumer/RabbitMQConsumer";
-import seeders, { SeederConfigType } from "./seeders";
+import seeders, { SeederConfigType } from "./seeder-config";
 
 (async (): Promise<void> => {
   const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";

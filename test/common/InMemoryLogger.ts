@@ -1,13 +1,9 @@
 import LoggerInterface from "../../src/logger/LoggerInterface";
 
 class InMemoryLogger implements LoggerInterface {
-  public logs: string[];
+  public logs: string[] = [];
 
-  constructor() {
-    this.logs = [];
-  }
-
-  log(data: string): void {
+  public log(data: string): void {
     this.logs.push(data);
   }
 }

@@ -11,7 +11,7 @@ class RabbitMQConsumer extends Consumer {
     this.channel = channel;
   }
 
-  async consume(callback: ConsumerCallback): Promise<void> {
+  public async consume(callback: ConsumerCallback): Promise<void> {
     await this.channel.assertQueue(this.queueName);
     await this.channel.consume(
       this.queueName,
@@ -21,7 +21,7 @@ class RabbitMQConsumer extends Consumer {
     );
   }
 
-  async close(): Promise<void> {
+  public async close(): Promise<void> {
     await this.channel.close();
   }
 }
