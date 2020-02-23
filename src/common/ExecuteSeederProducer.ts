@@ -1,6 +1,7 @@
 import SeederProducerBridge from "./SeederProducerBridge";
+import Stoppable from "./Stoppable";
 
-class ExecuteSeederProducer {
+class ExecuteSeederProducer implements Stoppable {
   private timeout?: NodeJS.Timeout;
   private closed = false;
 
@@ -21,7 +22,7 @@ class ExecuteSeederProducer {
       clearTimeout(this.timeout);
     }
 
-    return this.bridge.close();
+    return this.bridge.stop();
   }
 }
 

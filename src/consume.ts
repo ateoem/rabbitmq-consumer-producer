@@ -8,6 +8,7 @@ import LoggerInterface from "./logger/LoggerInterface";
 import ConsoleLogger from "./logger/ConsoleLogger";
 import RabbitMQConsumer from "./consumer/RabbitMQConsumer";
 import seeders, { SeederConfigType } from "./seeder-config";
+import InterruptListener from "./InterruptListener";
 
 const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";
 const url: string = process.env.AMQP_URL ? process.env.AMQP_URL : "";
@@ -18,16 +19,18 @@ if (!seedersToConsume) {
   process.exit(1);
 }
 
-let consumerBridges: LoggerConsumerBrige[];
+const consumerBridges: LoggerConsumerBrige[] = [];
 
 connect(url)
   .then((connection: Connection) => connection.createChannel())
   .then((channel: Channel) => {
     const logger: LoggerInterface = new ConsoleLogger();
-    consumerBridges = seedersToConsume.map((seeder: SeederConfigType) => {
-      const consumer = new RabbitMQConsumer(seeder.queueName, channel);
-      return new LoggerConsumerBrige(logger, consumer);
-    });
+    seedersToConsume
+      .map((seeder: SeederConfigType) => {
+        const consumer = new RabbitMQConsumer(seeder.queueName, channel);
+        return new LoggerConsumerBrige(logger, consumer);
+      })
+      .forEach(bridge => consumerBridges.push(bridge));
 
     consumerBridges.forEach((bridge: LoggerConsumerBrige) => {
       console.log(`Start to consume.`);
@@ -38,19 +41,4 @@ connect(url)
     console.error(`Couldn't start consumer: ${error.message}`);
   });
 
-process.on("SIGINT", function() {
-  console.log("Caught interrupt signal");
-  if (consumerBridges.length > 0) {
-    Promise.all(
-      consumerBridges.map((consumerBridge: LoggerConsumerBrige) =>
-        consumerBridge.stop()
-      )
-    ).then(() => {
-      console.log(`Gracefully shutting down`);
-      process.exit(0);
-    });
-  } else {
-    console.log(`Gracefully shutting down`);
-    process.exit(0);
-  }
-});
+process.on("SIGINT", InterruptListener(consumerBridges));

@@ -7,6 +7,7 @@ import { Connection, connect, Channel } from "amqplib";
 import SeederProducerBridge from "./common/SeederProducerBridge";
 import ExecuteSeederProducer from "./common/ExecuteSeederProducer";
 import seedersConfig, { SeederConfigType } from "./seeder-config";
+import InterruptListener from "./InterruptListener";
 
 const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";
 const url: string = process.env.AMQP_URL ? process.env.AMQP_URL : "";
@@ -18,19 +19,21 @@ if (!seedersToProduce) {
   process.exit(1);
 }
 
-let executeSeeders: ExecuteSeederProducer[];
+const executeSeeders: ExecuteSeederProducer[] = [];
 
 connect(url)
   .then((connection: Connection) => connection.createChannel())
   .then(async (channel: Channel) => {
-    executeSeeders = seedersToProduce.map((seederConfig: SeederConfigType) => {
-      const producer = new RabbitMQProducer(seederConfig.queueName, channel);
-      const seederProducer = new SeederProducerBridge(
-        [seederConfig.seeder],
-        producer
-      );
-      return new ExecuteSeederProducer(seederProducer, ms);
-    });
+    seedersToProduce
+      .map((seederConfig: SeederConfigType) => {
+        const producer = new RabbitMQProducer(seederConfig.queueName, channel);
+        const seederProducer = new SeederProducerBridge(
+          [seederConfig.seeder],
+          producer
+        );
+        return new ExecuteSeederProducer(seederProducer, ms);
+      })
+      .forEach(seeder => executeSeeders.push(seeder));
 
     executeSeeders.forEach((executeSeeder: ExecuteSeederProducer) => {
       console.log(`Start to produce.`);
@@ -41,19 +44,4 @@ connect(url)
     console.error(`Couldn't start consumer: ${error.message}`);
   });
 
-process.on("SIGINT", function() {
-  console.log("Caught interrupt signal");
-  if (executeSeeders.length > 0) {
-    Promise.all(
-      executeSeeders.map((consumerBridge: ExecuteSeederProducer) =>
-        consumerBridge.stop()
-      )
-    ).then(() => {
-      console.log(`Gracefully shutting down`);
-      process.exit(0);
-    });
-  } else {
-    console.log(`Gracefully shutting down`);
-    process.exit(0);
-  }
-});
+process.on("SIGINT", InterruptListener(executeSeeders));

@@ -23,7 +23,7 @@ class RabbitMQConsumer extends Consumer {
     this.consumerTag = consumeReply.consumerTag;
   }
 
-  public async close(): Promise<void> {
+  public async stop(): Promise<void> {
     if (this.consumerTag) {
       await this.channel.cancel(this.consumerTag);
     }

@@ -1,8 +1,9 @@
 import LoggerInterface from "../logger/LoggerInterface";
 import Consumer from "../consumer/Consumer";
 import IncomingMessage from "../message/IncomingMessage";
+import Stoppable from "./Stoppable";
 
-class LoggerConsumerBrige {
+class LoggerConsumerBrige implements Stoppable {
   constructor(private logger: LoggerInterface, private consumer: Consumer) {}
 
   public logWithConsume(): void {
@@ -13,7 +14,7 @@ class LoggerConsumerBrige {
   }
 
   public stop(): Promise<void> {
-    return this.consumer.close();
+    return this.consumer.stop();
   }
 }
 

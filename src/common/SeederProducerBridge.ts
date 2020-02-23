@@ -1,7 +1,8 @@
 import SeederInterface from "../seeder/SeederInterface";
 import ProducerInterface from "../producer/Producer";
+import Stoppable from "./Stoppable";
 
-class SeederProducerBridge {
+class SeederProducerBridge implements Stoppable {
   private rounds = 0;
 
   constructor(
@@ -19,8 +20,8 @@ class SeederProducerBridge {
     this.rounds += 1;
   }
 
-  public close(): Promise<void> {
-    return this.producer.close();
+  public stop(): Promise<void> {
+    return this.producer.stop();
   }
 }
 

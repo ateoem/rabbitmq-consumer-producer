@@ -20,7 +20,7 @@ class RabbitMQProducer extends Producer {
     return false;
   }
 
-  public async close(): Promise<void> {
+  public async stop(): Promise<void> {
     this.closed = true;
   }
 }
