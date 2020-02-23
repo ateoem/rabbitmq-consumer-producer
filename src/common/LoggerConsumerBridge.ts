@@ -11,6 +11,10 @@ class LoggerConsumerBrige {
       await message.ack();
     });
   }
+
+  public stop(): Promise<void> {
+    return this.consumer.close();
+  }
 }
 
 export default LoggerConsumerBrige;

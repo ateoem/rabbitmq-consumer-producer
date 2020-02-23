@@ -9,26 +9,47 @@ import ConsoleLogger from "./logger/ConsoleLogger";
 import RabbitMQConsumer from "./consumer/RabbitMQConsumer";
 import seeders, { SeederConfigType } from "./seeder-config";
 
-(async (): Promise<void> => {
-  const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";
-  const url: string = process.env.AMQP_URL ? process.env.AMQP_URL : "";
+const seederName: string = process.env.SEEDER ? process.env.SEEDER : "";
+const url: string = process.env.AMQP_URL ? process.env.AMQP_URL : "";
 
-  const seedersToConsume: SeederConfigType[] = seeders[seederName];
-  if (!seedersToConsume) {
-    console.error("There is no such provider!");
-    process.exit(1);
-  }
-  const connection: Connection = await connect(url);
-  const channel: Channel = await connection.createChannel();
-  const logger: LoggerInterface = new ConsoleLogger();
-  const consumerBridges: LoggerConsumerBrige[] = await Promise.all(
-    seedersToConsume.map((seeder: SeederConfigType) => {
+const seedersToConsume: SeederConfigType[] = seeders[seederName];
+if (!seedersToConsume) {
+  console.error("There is no such provider!");
+  process.exit(1);
+}
+
+let consumerBridges: LoggerConsumerBrige[];
+
+connect(url)
+  .then((connection: Connection) => connection.createChannel())
+  .then((channel: Channel) => {
+    const logger: LoggerInterface = new ConsoleLogger();
+    consumerBridges = seedersToConsume.map((seeder: SeederConfigType) => {
       const consumer = new RabbitMQConsumer(seeder.queueName, channel);
       return new LoggerConsumerBrige(logger, consumer);
-    })
-  );
+    });
 
-  consumerBridges.forEach((bridge: LoggerConsumerBrige) => {
-    bridge.logWithConsume();
+    consumerBridges.forEach((bridge: LoggerConsumerBrige) => {
+      bridge.logWithConsume();
+    });
+  })
+  .catch((error: Error) => {
+    console.error(`Couldn't start consumer: ${error.message}`);
   });
-})();
+
+process.on("SIGINT", function() {
+  console.log("Caught interrupt signal");
+  if (consumerBridges.length > 0) {
+    Promise.all(
+      consumerBridges.map((consumerBridge: LoggerConsumerBrige) =>
+        consumerBridge.stop()
+      )
+    ).then(() => {
+      console.log(`Gracefully shutting down`);
+      process.exit(0);
+    });
+  } else {
+    console.log(`Gracefully shutting down`);
+    process.exit(0);
+  }
+});

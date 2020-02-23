@@ -3,6 +3,7 @@ import Producer from "./Producer";
 
 class RabbitMQProducer extends Producer {
   private channel: Channel;
+  private closed = false;
 
   constructor(queueName: string, channel: Channel) {
     super(queueName);
@@ -10,13 +11,17 @@ class RabbitMQProducer extends Producer {
   }
 
   public async produce(message: string): Promise<boolean> {
-    const bufferedMessage = Buffer.from(message.toString());
-    await this.channel.assertQueue(this.queueName);
-    return this.channel.sendToQueue(this.queueName, bufferedMessage);
+    if (!this.closed) {
+      const bufferedMessage = Buffer.from(message.toString());
+      await this.channel.assertQueue(this.queueName);
+      return this.channel.sendToQueue(this.queueName, bufferedMessage);
+    }
+
+    return false;
   }
 
   public async close(): Promise<void> {
-    await this.channel.close();
+    this.closed = true;
   }
 }
 

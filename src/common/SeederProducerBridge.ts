@@ -19,8 +19,8 @@ class SeederProducerBridge {
     this.rounds += 1;
   }
 
-  public async close(): Promise<void> {
-    await this.producer.close();
+  public close(): Promise<void> {
+    return this.producer.close();
   }
 }
 

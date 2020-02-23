@@ -32,7 +32,7 @@ describe("ExecuteSeederProducer", () => {
     const execute = new ExecuteSeederProducer(bridge, 100);
     execute.start();
     await sleep(450); // four messages
-    execute.close();
+    execute.stop();
 
     loggerConsumer.logWithConsume();
     await hooks.waitForQueueToBeEmpty();

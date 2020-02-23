@@ -15,11 +15,13 @@ class ExecuteSeederProducer {
     }
   }
 
-  public close(): void {
+  public stop(): Promise<void> {
     this.closed = true;
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
+
+    return this.bridge.close();
   }
 }
 
