@@ -22,16 +22,16 @@ git clone https://github.com/mfejczaruk/rabbitmq-consumer-producer.git
 
 1. Run producers
 ```bash
-NODE_ENV=prod SEEDER=md5 docker-compose run -d produce
-NODE_ENV=prod SEEDER=sha3 docker-compose run -d produce
-NODE_ENV=prod SEEDER=keccak docker-compose run -d produce
+AMQP_URL=amqp://rabbitmq:5672/ INTERVAL=100 NODE_ENV=prod SEEDER=keccak docker-compose run produce
+AMQP_URL=amqp://rabbitmq:5672/ INTERVAL=100 NODE_ENV=prod SEEDER=sha3 docker-compose run produce
+AMQP_URL=amqp://rabbitmq:5672/ INTERVAL=100 NODE_ENV=prod SEEDER=md5 docker-compose run produce
 ```
 
 2. Wait for logs
 ```bash
-NODE_ENV=prod SEEDER=md5 docker-compose run consume
-NODE_ENV=prod SEEDER=sha3 docker-compose run consume
-NODE_ENV=prod SEEDER=keccak docker-compose run consume
+AMQP_URL=amqp://rabbitmq:5672/ NODE_ENV=prod SEEDER=keccak docker-compose run consume
+AMQP_URL=amqp://rabbitmq:5672/ NODE_ENV=prod SEEDER=sha3 docker-compose run consume
+AMQP_URL=amqp://rabbitmq:5672/ NODE_ENV=prod SEEDER=md5 docker-compose run consume
 ```
 
 ## Tests

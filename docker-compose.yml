@@ -4,6 +4,7 @@ services:
     build: . 
     environment:
      - NODE_ENV=${NODE_ENV}
+     - AMQP_URL=${AMQP_URL}
      - SEEDER=${SEEDER}
     depends_on:
       - rabbitmq
@@ -12,7 +13,9 @@ services:
     build: . 
     environment:
      - NODE_ENV=${NODE_ENV}
+     - AMQP_URL=${AMQP_URL}
      - SEEDER=${SEEDER}
+     - INTERVAL=${INTERVAL}
     depends_on:
       - rabbitmq
     command: "node dist/produce.js"

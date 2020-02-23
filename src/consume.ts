@@ -1,7 +1,3 @@
-import { resolve } from "path";
-import { config } from "dotenv";
-config({ path: resolve(__dirname, "../.env") });
-
 import { Connection, connect, Channel } from "amqplib";
 import LoggerConsumerBrige from "./common/LoggerConsumerBridge";
 import LoggerInterface from "./logger/LoggerInterface";
