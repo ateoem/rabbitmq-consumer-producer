@@ -1,6 +1,11 @@
-language: node_js
+dist: xenial
+addons:
+  apt:
+    packages:
+      - rabbitmq-server
 services:
   - rabbitmq
+language: node_js
 node_js:
   - 12
 before_install:
