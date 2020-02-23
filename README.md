@@ -22,9 +22,9 @@ git clone https://github.com/mfejczaruk/rabbitmq-consumer-producer.git
 
 1. Run producers
 ```bash
-NODE_ENV=prod SEEDER=md5 docker-compose run -d produce
-NODE_ENV=prod SEEDER=sha3 docker-compose run -d produce
-NODE_ENV=prod SEEDER=keccak docker-compose run -d produce
+NODE_ENV=prod SEEDER=md5 docker-compose run produce
+NODE_ENV=prod SEEDER=sha3 docker-compose run produce
+NODE_ENV=prod SEEDER=keccak docker-compose run produce
 ```
 
 2. Wait for logs
