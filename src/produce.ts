@@ -14,7 +14,7 @@ const ms: number = process.env.INTERVAL ? parseInt(process.env.INTERVAL) : 100;
 
 const seedersToProduce: SeederConfigType[] = seedersConfig[seederName];
 if (!seedersToProduce) {
-  console.error("There is no such provider!");
+  console.error(`There is no such seeder as ${seederName}!`);
   process.exit(1);
 }
 

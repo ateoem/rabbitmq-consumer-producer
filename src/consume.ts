@@ -14,7 +14,7 @@ const url: string = process.env.AMQP_URL ? process.env.AMQP_URL : "";
 
 const seedersToConsume: SeederConfigType[] = seeders[seederName];
 if (!seedersToConsume) {
-  console.error("There is no such provider!");
+  console.error(`There is no such seeder as ${seederName}!`);
   process.exit(1);
 }
 
